@@ -1,4 +1,6 @@
 secrets.py
 amplicode_env
 db
+__pycache__/
+*.pyc
 
