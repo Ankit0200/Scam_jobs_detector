@@ -3,4 +3,8 @@ amplicode_env
 db
 __pycache__/
 *.pyc
+testing_beautifulsoup.py
+testing_whois.py
+testing.txt
+testing.json
 
