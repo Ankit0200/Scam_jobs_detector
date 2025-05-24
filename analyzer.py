@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from models import JobLink, jobdescription
 from google import genai
+from config_secrets import whois_api_key
 import json
 import re
 from config_secrets import My_API_KEY
@@ -38,7 +39,7 @@ def check_mx_record(domain):
 
 def whoisapi(link):
     try:
-        api_key = "at_vcTUbUSGlDdjy4fPNJ7TjDeMKZy28"
+        api_key = whois_api_key
         response = requests.get("https://www.whoisxmlapi.com/whoisserver/WhoisService", params={
             "apiKey": api_key,
             "domainName": link,
