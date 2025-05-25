@@ -3,6 +3,7 @@ from models import JobLink, jobdescription
 from google import genai
 from config_secrets import whois_api_key
 import json
+from fastapi.responses import HTMLResponse,JSONResponse
 import re
 from config_secrets import My_API_KEY
 from typing import Optional
@@ -140,4 +141,9 @@ def scrape_site(link: JobLink):
 
     mx_record = check_mx_record(domain)
     whois_data = whoisapi(domain)
-    return analyzing_job_description(final_string, mx_record, whois_data)
+    result = analyzing_job_description(final_string, mx_record, whois_data)
+    print(type({"my_result":result}))
+    print(type(result))
+    return {"my_data": result}
+    # return JSONResponse(content={"my_data": analyzing_job_description(final_string,mx_record,whois_data)})
+    # return analyzing_job_description(final_string, mx_record, whois_data)

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Scam Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px auto;
+      max-width: 700px;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .result {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+
+    .error {
+      background: #ffe6e6;
+      padding: 15px;
+      color: #900;
+      margin-top: 20px;
+      border-left: 4px solid red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Job Scam Analyzer</h1>
+
+<form id="jobForm">
+  <label for="jobUrl">Enter Job URL:</label>
+  <input type="url" id="jobUrl" name="jobUrl" placeholder="https://example.com/job" required>
+  <button type="submit">Analyze Job</button>
+</form> <!-- ✅ add this closing tag -->
+
+  <div id="output"></div>
+
+  <script>
+    console.log("Job Scam Analyzer loaded");
+    const my_form=document.getElementById("jobForm");
+    my_form.addEventListener("submit",(e)=> {
+        e.preventDefault();
+        console.log(e)
+        console.log("Form submitted");
+        const formData=new FormData(my_form);
+        const jobUrl=formData.get("jobUrl");
+        console.log("Job URL:", jobUrl);
+        fetchdata(jobUrl);
+
+
+    })
+
+    async function fetchdata(jobUrl) {
+      try {
+        const response = await fetch(`http://localhost:8000/analyzer/scrape_site`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            
+
+          },
+          body: JSON.stringify({ url: jobUrl })
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log("Response data:", data);
+      } catch (error) {
+        
+        console.error("Error fetching data:", error);
+      }
+    }
+    
+  </script>
+</body>
+</html>
