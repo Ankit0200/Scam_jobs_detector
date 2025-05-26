@@ -27,6 +27,7 @@ def clean_text_for_json(text):
     return text
 
 def check_mx_record(domain):
+    print("step2")
     try:
         answers = dns.resolver.resolve(domain, "MX")
         mx_records = [f"{r.preference} {r.exchange.to_text()}" for r in answers]
@@ -53,6 +54,7 @@ def whoisapi(link):
         return {}
 
 def extract_scamsignals_from_whois(my_data: dict) -> dict:
+
     whois = my_data.get("WhoisRecord", {})
     registry = whois.get("registryData", {})
     registrant = registry.get("registrant", {})
@@ -114,7 +116,21 @@ def analyze_text(jobtextinput: jobdescription):
 
 @router.post('/scrape_site')
 def scrape_site(link: JobLink):
+    print('Step1')
+
+    # my_data={
+    #     "Scam_Verdict": "No",
+    #     "Trust_Score": 100,
+    #     "Reasoning": [
+    #         "The domain is google.com, a well-established and reputable company.",
+    #         "The MX record points to smtp.google.com, confirming its legitimacy.",
+    #         "WHOIS information shows a long history and valid registration details."
+    #     ],
+    #     "Suggestions": []
+    # }
+    # return my_data
     url = str(link.url)
+    print(url)
     response = requests.get(url)
     my_soup = BeautifulSoup(response.text, "html.parser")
     domain = urlparse(url).netloc
@@ -136,14 +152,15 @@ def scrape_site(link: JobLink):
         formatted_output.append(f"Email: {cleaned_email}")
 
     final_string = "\n".join(formatted_output)
-    with open("testing.txt", "w") as file:
-        file.write(final_string)
+
 
     mx_record = check_mx_record(domain)
     whois_data = whoisapi(domain)
     result = analyzing_job_description(final_string, mx_record, whois_data)
-    print(type({"my_result":result}))
+    # print(type({"my_result":result}))
     print(type(result))
-    return {"my_data": result}
+    print("ABOUT TO SEND FINALLLl")
+    return analyzing_job_description(final_string, mx_record, whois_data)
+
     # return JSONResponse(content={"my_data": analyzing_job_description(final_string,mx_record,whois_data)})
     # return analyzing_job_description(final_string, mx_record, whois_data)

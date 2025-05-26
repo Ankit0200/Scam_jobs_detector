@@ -5,52 +5,190 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Job Scam Analyzer</title>
   <style>
+    /* Tailwind CSS is not used here as per original request, using custom CSS */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
       margin: 40px auto;
       max-width: 700px;
       padding: 20px;
       background: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
     }
 
     h1 {
       text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px; /* Rounded corners */
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
     }
 
     label {
       font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      color: #34495e;
+      font-size: 1.1em;
     }
 
-    input, button {
-      padding: 10px;
-      margin-top: 10px;
+    input[type="url"] {
+      padding: 14px;
+      margin-top: 5px;
       width: 100%;
       box-sizing: border-box;
+      border: 1px solid #dcdcdc;
+      border-radius: 8px; /* Rounded corners */
+      font-size: 16px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input[type="url"]:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      outline: none;
     }
 
     button {
+      padding: 14px 25px;
       background-color: #3498db;
       color: white;
       border: none;
-      margin-top: 15px;
+      margin-top: 20px;
       cursor: pointer;
+      border-radius: 8px; /* Rounded corners */
+      font-size: 18px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
+
+    button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
     }
 
     .result {
       background: white;
-      padding: 20px;
-      margin-top: 20px;
-      border: 1px solid #ccc;
+      padding: 30px;
+      margin-top: 30px;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px; /* Rounded corners */
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .result h2 {
+      color: #3498db;
+      margin-top: 0;
+      border-bottom: 2px solid #ecf0f1;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+      font-size: 1.8em;
+    }
+
+    .result p {
+      margin-bottom: 12px;
+    }
+
+    .result strong {
+      color: #2c3e50;
+    }
+
+    .result ul {
+      list-style-type: disc;
+      margin-left: 25px;
+      padding-left: 0;
+      margin-top: 15px;
+    }
+
+    .result li {
+      margin-bottom: 8px;
     }
 
     .error {
       background: #ffe6e6;
-      padding: 15px;
-      color: #900;
-      margin-top: 20px;
-      border-left: 4px solid red;
+      padding: 25px;
+      color: #c0392b;
+      margin-top: 30px;
+      border-left: 5px solid #e74c3c;
+      border-radius: 12px; /* Rounded corners */
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.15);
+    }
+
+    .error h2 {
+      color: #e74c3c;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.6em;
+    }
+
+    .error ul {
+      list-style-type: circle;
+      margin-left: 20px;
+      padding-left: 0;
+      margin-top: 10px;
+    }
+
+    .error li {
+      margin-bottom: 5px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 25px;
+      margin-top: 30px;
+      font-size: 1.4em;
+      color: #3498db;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .loading::before {
+      content: '⏳ '; /* Emoji for loading */
+      display: inline-block;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        margin: 20px;
+        padding: 15px;
+      }
+      form, .result, .error, .loading {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      button {
+        font-size: 16px;
+        padding: 12px;
+      }
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <h1>Job Scam Analyzer</h1>
@@ -59,48 +197,114 @@
   <label for="jobUrl">Enter Job URL:</label>
   <input type="url" id="jobUrl" name="jobUrl" placeholder="https://example.com/job" required>
   <button type="submit">Analyze Job</button>
-</form> <!-- ✅ add this closing tag -->
+</form>
 
   <div id="output"></div>
 
   <script>
     console.log("Job Scam Analyzer loaded");
-    const my_form=document.getElementById("jobForm");
-    my_form.addEventListener("submit",(e)=> {
-        e.preventDefault();
-        console.log(e)
-        console.log("Form submitted");
-        const formData=new FormData(my_form);
-        const jobUrl=formData.get("jobUrl");
-        console.log("Job URL:", jobUrl);
-        fetchdata(jobUrl);
+    const jobForm = document.getElementById("jobForm");
+    const outputDiv = document.getElementById("output");
 
+    jobForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      console.log("Form submitted");
+      const formData = new FormData(jobForm);
+      const jobUrl = formData.get("jobUrl");
+      console.log("Job URL:", jobUrl);
+      await fetchData(jobUrl);
+    });
 
-    })
+    async function fetchData(jobUrl) {
+      // Display loading message
+      outputDiv.innerHTML = '<div class="loading">Analyzing job... Please wait.</div>';
 
-    async function fetchdata(jobUrl) {
       try {
         const response = await fetch(`http://localhost:8000/analyzer/scrape_site`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            
-
           },
           body: JSON.stringify({ url: jobUrl })
         });
+
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          // Attempt to read error message from response body
+          const errorBody = await response.text();
+          let errorMessage = `HTTP error! Status: ${response.status}`;
+          try {
+            const errorJson = JSON.parse(errorBody);
+            if (errorJson.detail) {
+              errorMessage += `, Detail: ${errorJson.detail}`;
+            } else if (errorJson.error) {
+              errorMessage += `, Backend Error: ${errorJson.error}`;
+            }
+          } catch (e) {
+            errorMessage += `, Response: ${errorBody.substring(0, 200)}...`; // Show part of raw response if not JSON
+          }
+          throw new Error(errorMessage);
         }
+
         const data = await response.json();
         console.log("Response data:", data);
+        displayResult(data);
+
       } catch (error) {
-        
         console.error("Error fetching data:", error);
+        outputDiv.innerHTML = `<div class="error">
+          <h2>Analysis Failed!</h2>
+          <p>An error occurred while analyzing the job. This could be due to:</p>
+          <ul>
+            <li>The backend server not running or being inaccessible.</li>
+            <li>A network issue.</li>
+            <li>An issue with the job URL provided (e.g., website blocked scraping, invalid URL).</li>
+            <li>An unexpected response from the analysis service.</li>
+          </ul>
+          <p><strong>Error Details:</strong> ${error.message}</p>
+          <p>Please ensure the FastAPI backend is running on <code>http://localhost:8000</code> and try again with a valid job URL.</p>
+        </div>`;
       }
     }
-    
+
+    function displayResult(data) {
+      let htmlContent = '<div class="result">';
+      if (data.error) {
+        htmlContent += `<h2>Analysis Error!</h2>
+                        <p><strong>Error:</strong> ${data.error}</p>
+                        <p><strong>Details:</strong> ${data.details || 'No additional details provided.'}</p>`;
+        if (data.raw_response) {
+            htmlContent += `<p><strong>Raw LLM Response:</strong> <pre style="white-space: pre-wrap; word-break: break-all; background: #f8f8f8; padding: 10px; border-radius: 5px; max-height: 200px; overflow-y: auto;">${JSON.stringify(data.raw_response, null, 2)}</pre></p>`;
+        }
+      } else {
+        htmlContent += `<h2>Analysis Result</h2>
+                        <p><strong>Scam Verdict:</strong> <span style="color: ${data.Scam_Verdict === 'Yes' ? '#e74c3c' : '#27ae60'}; font-weight: bold;">${data.Scam_Verdict}</span></p>
+                        <p><strong>Trust Score:</strong> <span style="color: ${data.Trust_Score < 50 ? '#e74c3c' : data.Trust_Score < 80 ? '#f39c12' : '#27ae60'}; font-weight: bold;">${data.Trust_Score}/100</span></p>
+                        <h3>Reasoning:</h3>
+                        <ul>`;
+        if (data.Reasoning && Array.isArray(data.Reasoning)) {
+            data.Reasoning.forEach(reason => {
+                htmlContent += `<li>${reason}</li>`;
+            });
+        } else {
+            htmlContent += `<li>No specific reasoning provided.</li>`;
+        }
+        htmlContent += `</ul>`;
+
+        if (data.Suggestions && Array.isArray(data.Suggestions) && data.Suggestions.length > 0) {
+          htmlContent += `<h3>Suggestions:</h3>
+                          <ul>`;
+          data.Suggestions.forEach(suggestion => {
+            htmlContent += `<li>${suggestion}</li>`;
+          });
+          htmlContent += `</ul>`;
+        } else {
+            htmlContent += `<p>No specific suggestions provided.</p>`;
+        }
+      }
+      htmlContent += '</div>';
+      outputDiv.innerHTML = htmlContent;
+    }
   </script>
 </body>
 </html>
