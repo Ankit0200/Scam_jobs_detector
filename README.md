@@ -50,5 +50,5 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/yourusername/job-scam-detector.git
+git clone https://github.com/Ankit0200/Scam_jobs_detector.git
 cd job-scam-detector
