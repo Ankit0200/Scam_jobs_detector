@@ -21,8 +21,7 @@
 - **Backend**: FastAPI (Python)
 - **AI/NLP**: Google Gemini (optional)
 - **Data Sources**: WHOIS API, DNS/MX records
-- **Frontend**: (Plug in your stack here, e.g., React or plain HTML/JS)
-- **Database**: (Optional if persistent job reports/logs are stored)
+- **Frontend**: HTML, CSS, JS , 
 
 ---
 
@@ -32,6 +31,9 @@
 ```bash
 git clone https://github.com/Ankit0200/Scam_jobs_detector
 cd Scam_jobs_detector
+
+**Sample output **
+
 {
   "Scam_Verdict": "Yes",
   "Trust_Score": 25,
