@@ -1,4 +1,4 @@
-secrets.py
+config_secrets.py
 amplicode_env
 db
 __pycache__/
@@ -7,4 +7,5 @@ testing_beautifulsoup.py
 testing_whois.py
 testing.txt
 testing.json
+job_scam_analyzer_extension.zip
 
